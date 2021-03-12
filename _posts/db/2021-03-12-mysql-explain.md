@@ -24,7 +24,7 @@ tags: 数据库 MySQL
 
 * SIMPLE: 简单查询
 
-  查询中不包含子查询或UNION;
+  查询中不包含子查询或`UNION`{:.success};
 
 * PRIMARY: 主键查询
 
@@ -36,8 +36,8 @@ tags: 数据库 MySQL
 
 * DERIVER: 衍生
 
-  在 FROM 列表中包含子查询被标记为 DERIVER, 结果存放在临时表;
-  若 UNION 包含在 FOME 子查询中, 外层 SELECT 将被标记 DERIVER;
+  在 `FROM`{:.success} 列表中包含子查询被标记为 **DERIVER**, 结果存放在临时表;
+  若 `UNION`{:.success} 包含在 `FOME`{:.success} 子查询中, 外层 `SELECT`{:.success} 将被标记**DERIVER**;
 
 * UNION:
 
@@ -45,7 +45,7 @@ tags: 数据库 MySQL
 
 * UNION RESULT:
 
-  从 UNION 表获取合并结果的 SELECT;
+  从 `UNION`{:.success} 表获取合并结果的 `SELECT`{:.success};
 
 ### table: 查询表名
 
@@ -59,35 +59,37 @@ system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_su
 
 > 一般至少保障到 range, 最好能达到 ref
 
-* ALL
+* `ALL`{:.error}
 
   全表扫描(Full Table Scan)遍历以找到匹配行
 
-* index
+* `index`{:.warning}
 
   全索引扫描(Full Index Scan)与 ALL 区别为只遍历索引树。
 
-* range
+* `range`{:.success}
 
   用一个索引来检索给定范围的行。
 
-* ref
+* `ref`{:.success}
 
   非唯一性索引扫描, 返回匹配某个单独值的所有行。
 
-* eq_ref
+* `eq_ref`{:.success}
 
   唯一性索引扫描, 对于索引键表中只有一条记录与之匹配。常出现于主键或唯一索引扫描。
 
-* const
+* `const`{:.success}
 
-  通过索引一次就能找到, const 用于 PrimaryKey(主键) 或 Unique(唯一) 索引。 
+  通过索引一次就能找到, const 用于 `PrimaryKey`(主键) 或 `Unique`(唯一) 索引。 
 
-* system
+* `system`{:.success}
 
-  表只有一行数据(等于系统表), const 类型特例。
+  表只有一行数据(等于系统表), `const`类型特例。
 
-* NULL
+* `NULL`{:.error}
+
+  未使用索引
 
 ### possible_keys: 可能用到的索引
 
@@ -118,15 +120,15 @@ system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_su
 
 * `Using index`{:.success}: 覆盖索引(Covering Index)。表示直接从索引读取数据并未执行查询动作。同事出现 Using where 表示索引被用来执行索引键值的查找。
 
-* Using where: 使用 where 过滤
+* `Using where`: 使用 `WHERE`{:.success} 过滤
 
-* Using join buffer: 使用连接缓存
+* `Using join buffer`: 使用连接缓存
 
-* impossible where: where 条件不能用来获取任何内容
+* `impossible where`: `WHERE`{:.success} 条件不能用来获取任何内容
 
-* select tables optimized away: 在没有 GROUP BY 子句的情况下, 基于索引优化 MIN/MAX 操作或对于MyISAM存储引擎优化 COUNT(*) 操作, 不必等到执行阶段, 查询执行计划生成阶段即完成优化
+* `select tables optimized away`: 在没有 `GROUP BY` 子句的情况下, 基于索引优化 MIN/MAX 操作或对于MyISAM存储引擎优化 COUNT(*) 操作, 不必等到执行阶段, 查询执行计划生成阶段即完成优化
 
-* distinct: 在找到第一个匹配元素后即停止找同样值的动作
+* `distinct`: 在找到第一个匹配元素后即停止找同样值的动作
 
 
 
