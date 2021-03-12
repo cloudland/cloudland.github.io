@@ -17,33 +17,33 @@ tags: 数据库 MySQL
 ### id: 查询序列号
 
 * `select`{:.success}查询的序列号, 包含一组数字, 表示查询执行`select`{:.success}操作的表顺序;
-* 如果`SQL`存在子查询, id值越大优先级越高, 优先被执行;
-* 如果`SQL`存在子查询, id值相同, 从上往下顺序执行;
+* 如果`SQL`存在子查询, **id**值越大优先级越高, 优先被执行;
+* 如果`SQL`存在子查询, **id**值相同, 从上往下顺序执行;
 
 ### select_type: 查询类型
 
-* SIMPLE: 简单查询
+* `SIMPLE`: 简单查询
 
   查询中不包含子查询或`UNION`{:.success};
 
-* PRIMARY: 主键查询
+* `PRIMARY`: 主键查询
 
   查询中包含任何复杂的子查询, 最外层标记;
 
-* SUBQUERY: 子查询
+* `SUBQUERY`: 子查询
 
   在 `SELECT`{:.success} 或 `WHERE`{:.success} 中包含子查询;
 
-* DERIVER: 衍生
+* `DERIVER`: 衍生
 
   在 `FROM`{:.success} 列表中包含子查询被标记为 **DERIVER**, 结果存放在临时表;
   若 `UNION`{:.success} 包含在 `FOME`{:.success} 子查询中, 外层 `SELECT`{:.success} 将被标记**DERIVER**;
 
-* UNION:
+* `UNION`:
 
-  第二个`SELECT`{:.success}出现在UNION之后;
+  第二个`SELECT`{:.success}出现在`UNION`{:.success}之后;
 
-* UNION RESULT:
+* `UNION RESULT`:
 
   从 `UNION`{:.success} 表获取合并结果的 `SELECT`{:.success};
 
