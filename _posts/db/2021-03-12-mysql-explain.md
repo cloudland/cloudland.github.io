@@ -8,8 +8,6 @@ date: 2021-03-12 09:00
 tags: 数据库 MySQL
 ---
 
-## 基础
-
 **Explain 执行结果**
 
 ![Explain执行结果](https://cloudland.github.io/assets/images/20210321/explain-01.png)
