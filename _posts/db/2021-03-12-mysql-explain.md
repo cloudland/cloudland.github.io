@@ -8,6 +8,8 @@ date: 2021-03-12 09:00
 tags: 数据库 MySQL
 ---
 
+## SQL分析
+
 **Explain 执行结果**
 
 ![Explain执行结果](https://cloudland.github.io/assets/images/20210321/explain-01.png)
@@ -128,6 +130,60 @@ system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_su
 
 * `distinct`: 在找到第一个匹配元素后即停止找同样值的动作
 
+## 慢查询
 
+### 查询慢查询配置
+
+![慢查询配置](https://cloudland.github.io/assets/images/20210321/explain-02.png)
+
+相关SQL:
+
+```sql
+-- 查询慢查询配置
+SHOW VARIABLES LIKE '%slow_query_log%';
+
+-- 开启慢查询配置(只对本次生效, 重启后失效)
+SET GLOBAL slow_query_log=1;
+```
+
+  永久生效, 配置 my.cnf 新增如下内容:
+    
+    slow_query_log = 1
+    slow_query_log_file = /opt/local/xxx-slow.log
+
+### 设置慢查询标准
+
+> 系统执行时间默认10秒以上为慢查询
+
+![慢查询配置时间](https://cloudland.github.io/assets/images/20210321/explain-03.png)
+
+```sql
+-- 查看默认时间
+SHOW VARIABLES LIKE 'long_query_time%';
+
+-- 设置阈值(需要新开会话才会启用)
+SET GLOBAL long_query_time=3;
+```
+
+### 查询慢查询数量
+
+![慢查询数量](https://cloudland.github.io/assets/images/20210321/explain-04.png)
+
+```sql
+-- 查询慢查询数量
+SHOW GLOBAL STATUS LIKE '%Slow_queries%%';
+```
+
+### 分析工具
+
+> mysqldumpslow 是MySQL提供的日志分析工具, 用于查找、分析结果
+
+```sql
+-- 返回记录集最多的10个SQL
+mysqldumpslow -s r -t 10 /opt/log/xx-slow.log
+
+-- 返回次数最多的10条SQL
+mysqldumpslow -s c -t 10 /opt/log/xx-slow.log
+```
 
 <!--more-->
