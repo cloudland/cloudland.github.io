@@ -85,9 +85,9 @@ system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_su
 
   表只有一行数据(等于系统表), `const`类型特例。
 
-* `NULL`{:.error}
+* `NULL`{:.success}
 
-  未使用索引
+  不用访问表或者索引就直接能到结果
 
 ### possible_keys: 可能用到的索引
 
