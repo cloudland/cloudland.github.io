@@ -12,7 +12,7 @@ tags: 数据库 MySQL
 
 **Explain 执行结果**
 
-![Explain执行结果](https://cloudland.github.io/assets/images/20210321/explain-01.png)
+![Explain执行结果](https://cloudland.github.io/assets/images/20210321/explain-01.png){:.rounded}
 
 ### id: 查询序列号
 
@@ -134,7 +134,7 @@ system > const > eq_ref > ref > fulltext > ref_or_null > index_merge > unique_su
 
 ### 查询慢查询配置
 
-![慢查询配置](https://cloudland.github.io/assets/images/20210321/explain-02.png)
+![慢查询配置](https://cloudland.github.io/assets/images/20210321/explain-02.png){:.rounded}
 
 相关SQL:
 
@@ -155,7 +155,7 @@ SET GLOBAL slow_query_log=1;
 
 > 系统执行时间默认10秒以上为慢查询
 
-![慢查询配置时间](https://cloudland.github.io/assets/images/20210321/explain-03.png)
+![慢查询配置时间](https://cloudland.github.io/assets/images/20210321/explain-03.png){:.rounded}
 
 ```sql
 -- 查看默认时间
@@ -167,7 +167,7 @@ SET GLOBAL long_query_time=3;
 
 ### 查询慢查询数量
 
-![慢查询数量](https://cloudland.github.io/assets/images/20210321/explain-04.png)
+![慢查询数量](https://cloudland.github.io/assets/images/20210321/explain-04.png){:.rounded}
 
 ```sql
 -- 查询慢查询数量
