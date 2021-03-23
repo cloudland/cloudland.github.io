@@ -8,15 +8,13 @@ date: 2021-03-23 16:00
 tags: Java Spring SpringBoot
 ---
 
-## 原理解析
-
-### 启动过程
+## 启动过程
 
 > SpringBoot 启动分两部分: new, run
 
 ![SpringApplication](https://cloudland.github.io/assets/images/202103/springboot-10.png){:.rounded}
 
-#### new
+### new
 
 创建`SpringApplication`实例并初始化属性
 
@@ -28,7 +26,7 @@ tags: Java Spring SpringBoot
 
 2. 查找`ApplicationListener`配置并设置`listeners`属性;
 
-#### run
+### run
 
 ![ApplicationListener](https://cloudland.github.io/assets/images/202103/springboot-12.png){:.rounded}
 
@@ -78,7 +76,7 @@ tags: Java Spring SpringBoot
 * `handleRunFailure`{:.success}容器初始、启动过程异常时调用
 
 
-### 事件与监听
+## 事件与监听
 
 > 需要在`META-INF`文件夹内的`spring.factories`配置, Spring方能读取加载。
 
@@ -102,7 +100,7 @@ tags: Java Spring SpringBoot
 
 ![SpringApplicationRunListener](https://cloudland.github.io/assets/images/202103/springboot-03.png){:.rounded}
 
-### Runner
+## Runner
 
 合并`ApplicationRunner`和`CommandLineRunner`按`@Order`排序执行, 执行接口`run`函数。
 
