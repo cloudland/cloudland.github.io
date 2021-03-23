@@ -18,7 +18,7 @@ tags: Java Spring SpringBoot
 
 自动配置包
 
-![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-25.png){:.rounded}{:height="144px" width="144px"}
+![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-25.png){:.rounded}{:height="60%" width="60%"}
 
 ![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-21.png){:.rounded}
 
