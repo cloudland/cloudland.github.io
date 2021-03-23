@@ -60,3 +60,49 @@ public static final String FACTORIES_RESOURCE_LOCATION = "META-INF/spring.factor
 ### 条件装配
 
 可以结合**@Conditional**最终决定是否装配
+
+## 自定 Starter
+
+### 项目名-spring-boot-starter(启动器)
+
+```xml
+<groupId>项目名</groupId>
+<artifactId>项目名-spring-boot-starter</artifactId>
+<version>版本</version>
+
+<dependencies>
+  <!-- 引入自动配置包 -->
+  <dependency>
+     <groupId>项目名</groupId>
+     <artifactId>项目名-spring-boot-starter-autoconfigure</artifactId>
+     <version>版本</version>
+  </dependency>
+</dependencies>
+```
+
+### 项目名-spring-boot-starter-autoconfigure(自动配置包)
+
+* 定义模块POM
+
+```xml
+<groupId>项目名</groupId>
+<artifactId>项目名-spring-boot-starter-autoconfigure</artifactId>
+<version>版本</version>
+```
+
+* 定义自动配置类
+
+```java
+@Configuration
+public class XxxAutoConfiguration {
+
+}
+```
+
+* 新增`META-INF`下`spring.factories`文件
+
+```yml
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+XxxAutoConfiguration
+```
