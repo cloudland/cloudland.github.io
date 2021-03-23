@@ -18,7 +18,9 @@ tags: Java Spring SpringBoot
 
 自动配置包
 
-![EnableAutoConfiguration](https://cloudland.github.io/assets/images/202103/springboot-21.png){:.rounded}
+![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-25.png){:.rounded}
+
+![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-21.png){:.rounded}
 
 `new PackageImports(metadata).getPackageNames()`{:.info}获取注解应用的类所在包路径。
 
@@ -30,7 +32,7 @@ tags: Java Spring SpringBoot
 
 查看`selectImports`{:.info}函数
 
-![EnableAutoConfiguration](https://cloudland.github.io/assets/images/202103/springboot-22.png){:.rounded}
+![AutoConfigurationImportSelector](https://cloudland.github.io/assets/images/202103/springboot-22.png){:.rounded}
 
 ```mermaid
 graph TB;
