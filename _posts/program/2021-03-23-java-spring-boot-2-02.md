@@ -58,6 +58,11 @@ graph TB;
     C--yes-->B;
 ```
 
+```mermaid
+graph LR
+从左到右 --> 指我干啥
+```
+
 
 ![loadSpringFactories](https://cloudland.github.io/assets/images/202103/springboot-23.png){:.rounded}
 
