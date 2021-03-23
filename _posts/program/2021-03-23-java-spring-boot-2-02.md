@@ -18,7 +18,7 @@ tags: Java Spring SpringBoot
 
 自动配置包
 
-![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-25.png){:.rounded}
+![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-25.png){:.rounded}{:height="144px" width="144px"}
 
 ![AutoConfigurationPackage](https://cloudland.github.io/assets/images/202103/springboot-21.png){:.rounded}
 
@@ -46,23 +46,6 @@ graph LR;
     C-->D;
     D-->E;
 ```
-
-```mermaid
-graph TB;
-    A[Do you have a problem in your life?]
-    B[Then don't worry]
-    C[Can you do something about it?]
-    A--no-->B;
-    A--yes-->C;
-    C--no-->B;
-    C--yes-->B;
-```
-
-```mermaid
-graph LR
-从左到右 --> 指我干啥
-```
-
 
 ![loadSpringFactories](https://cloudland.github.io/assets/images/202103/springboot-23.png){:.rounded}
 
