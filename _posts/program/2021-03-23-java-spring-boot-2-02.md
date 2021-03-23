@@ -35,7 +35,7 @@ tags: Java Spring SpringBoot
 ![AutoConfigurationImportSelector](https://cloudland.github.io/assets/images/202103/springboot-22.png){:.rounded}
 
 ```mermaid
-graph TB;
+graph LR;
     A[getAutoConfigurationEntry]
     B[getCandidateConfigurations]
     C[SpringFactoriesLoader.loadFactoryNames]
