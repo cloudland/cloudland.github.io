@@ -3,7 +3,7 @@ comment: false
 aside:
   toc: true
 
-title: SpringBoot2 学习
+title: SpringBoot2 基础原理
 date: 2021-03-23 16:00
 tags: Java Spring SpringBoot
 ---
