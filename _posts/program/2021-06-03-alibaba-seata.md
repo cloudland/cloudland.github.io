@@ -25,7 +25,7 @@ tags: Java Alibaba Seata
 
   可以在 seata-server-1.4.2/conf 目录， 看下配置说明`README-zh.md`清楚了解配置。如下图:
 
-  ![配置文件](seata-1.png)
+  ![配置文件](https://cloudland.github.io/assets/images/202103/seata-1.png){:.rounded}
 
   配置分两大部分, 数据库和注册、配置中心
 
@@ -33,7 +33,7 @@ tags: Java Alibaba Seata
 
     > 用于配置数据库链接相关信息
 
-    ![配置文件截图](seata-2.png)
+    ![配置文件截图](https://cloudland.github.io/assets/images/202103/seata-2.png){:.rounded}
 
     * 选择`mode`存储类型, 推荐选择`db`类型
 
@@ -43,13 +43,13 @@ tags: Java Alibaba Seata
 
     > 用于配置注册、配置中心相关信息
 
-    ![registry注册中心](seata-3.png)
+    ![registry注册中心](https://cloudland.github.io/assets/images/202103/seata-3.png){:.rounded}
 
     * 修改`registry`配置, 推荐使用`nacos`。修改`type=nacos`
 
     * 基于配置`type=nacos`为注册中心, 修改`nacos`配置节点
 
-    ![registry配置中心](seata-4.png)
+    ![registry配置中心](https://cloudland.github.io/assets/images/202103/seata-4.png){:.rounded}
 
     * 修改`config`配置, 推荐使用`nacos`。修改`type=nacos`
 
