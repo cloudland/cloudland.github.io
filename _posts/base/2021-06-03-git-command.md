@@ -3,7 +3,7 @@ comment: false
 aside:
   toc: true
 
-title: Git 命令
+title: Git 使用手册
 date: 2021-03-17 11:00
 tags: 版本工具
 ---
@@ -11,6 +11,10 @@ tags: 版本工具
 ## Git 开发命令
 
 ### 仓储管理
+
+* 本地初始仓库
+
+  git init
 
 * 检出仓库
 
@@ -56,7 +60,7 @@ tags: 版本工具
   git push origin master
   ```
 
-### 文件管理
+### 分支管理
 
 * 查看分支
 
@@ -92,6 +96,29 @@ tags: 版本工具
 
   git merge [localBranchName] 
 
-* 创建远程分支(本地分支push到远程)
+* 本地分支推到远程
 
   git push origin [localBranchName]
+
+
+### 文件管理
+
+* 添加文件 Git Index
+
+  git add [fileName]
+
+* 删除指定文件
+
+  * --cached: 只从暂存区中删除
+
+  * -f: 强行删除
+
+  git rm [文件名/路径]
+
+* 提交
+
+  * -a: 提交全部变更
+
+  git commit
+
+  git commit -am "init" 
