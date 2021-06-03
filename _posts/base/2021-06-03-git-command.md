@@ -122,3 +122,34 @@ tags: 版本工具
   git commit
 
   git commit -am "init" 
+
+### 版本管理
+
+* 创建标记
+
+  git tag
+
+    * -a: 版本号
+
+    * -m: 标识说明
+
+    * -d: 删除本地tag
+
+    ```shell
+    git tag -a v1.0.0 -m "新建标记"
+    ```
+
+* 删除远程标记
+
+  git push origin --delete [tagName] 
+
+* 推送远程仓储
+
+  git push origin [版本号]
+  
+    * --tag: 推送全部tags
+
+
+  ```shell
+  git push origin v1.0.0
+  ```
