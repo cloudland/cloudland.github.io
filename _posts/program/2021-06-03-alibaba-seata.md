@@ -63,7 +63,7 @@ tags: Java Alibaba Seata
 
 * postgresql
 
-  ```SQL
+  ```postgresql
   -- -------------------------------- The script used when storeMode is 'db' --------------------------------
   -- the table to store GlobalSession data
   CREATE TABLE IF NOT EXISTS public.global_table
@@ -128,7 +128,7 @@ tags: Java Alibaba Seata
 
 * postgresql
 
-  ```SQL
+  ```postgresql
   -- for AT mode you must to init this sql for you business database. the seata server not need it.
   CREATE TABLE IF NOT EXISTS public.undo_log
   (
@@ -150,7 +150,7 @@ tags: Java Alibaba Seata
 
 启动命令参数说明:
 
-```
+```shell
 Usage: sh seata-server.sh(for linux and mac) or cmd seata-server.bat(for windows) [options]
   Options:
     --host, -h
@@ -167,7 +167,7 @@ Usage: sh seata-server.sh(for linux and mac) or cmd seata-server.bat(for windows
 
 启动命令样例:
 
-```
+```shell
 sh seata-server.sh -p 8091 -h 127.0.0.1 -m db
 
 # 后台运行 重定向日志文件 2>&1 是一个整体，2 表示stderr标准错误，报错内容
