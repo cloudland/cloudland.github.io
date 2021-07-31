@@ -241,7 +241,7 @@ sh nacos-config.sh -h 127.0.0.1
 
 * PostgreSQL
 
-  ```SQL
+  ```sql
   -- for AT mode you must to init this sql for you business database. the seata server not need it.
   CREATE TABLE IF NOT EXISTS public.undo_log
   (
@@ -262,7 +262,7 @@ sh nacos-config.sh -h 127.0.0.1
 
 * MySQL
 
-  ```SQL
+  ```sql
   -- for AT mode you must to init this sql for you business database. the seata server not need it.
   CREATE TABLE IF NOT EXISTS `undo_log`
   (
