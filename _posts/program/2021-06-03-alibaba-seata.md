@@ -25,8 +25,6 @@ tags: Java Alibaba Seata
 
   可以在 seata-server-1.4.2/conf 目录， 看下配置说明`README-zh.md`清楚了解配置。如下:
 
-  ~~![配置文件](https://cloudland.github.io/assets/images/202106/seata-1.png){:.rounded}~~
-
   ```md
   # 脚本说明
 
