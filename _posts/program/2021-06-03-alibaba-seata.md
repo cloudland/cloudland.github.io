@@ -279,7 +279,7 @@ sh nacos-config.sh -h 127.0.0.1
     DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';
   ```
 
-### 5. Seata 启动
+### 6. Seata 启动
 
 启动命令参数说明:
 
