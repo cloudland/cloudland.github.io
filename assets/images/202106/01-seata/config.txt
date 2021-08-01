@@ -13,8 +13,7 @@ transport.threadFactory.bossThreadSize=1
 transport.threadFactory.workerThreadSize=default
 transport.shutdown.wait=3
 service.vgroupMapping.my_test_tx_group=default
-# 仅注册中心为file时使用
-# service.default.grouplist=127.0.0.1:8091
+service.default.grouplist=127.0.0.1:8091
 service.enableDegrade=false
 service.disableGlobalTransaction=false
 client.rm.asyncCommitBufferLimit=10000
@@ -48,9 +47,9 @@ store.file.sessionReloadReadSize=100
 store.db.datasource=druid
 store.db.dbType=mysql
 store.db.driverClassName=com.mysql.jdbc.Driver
-store.db.url=jdbc:mysql://172.18.7.145:3306/seata_server?useUnicode=true&rewriteBatchedStatements=true
+store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true&rewriteBatchedStatements=true
 store.db.user=root
-store.db.password=daasan7ujm^YHN
+store.db.password=root
 store.db.minConn=5
 store.db.maxConn=30
 store.db.globalTable=global_table
