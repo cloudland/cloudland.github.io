@@ -107,7 +107,9 @@ seata:
 
 ### 编码使用
 
-#### 样例代码
+[样例项目](https://github.com/cloudland/study-seata.git)
+
+#### 样例片段
 
 > 只需在需要控制全局事务的服务上, 添加`@GlobalTransactional`即可。无需在每个被调用的子系统的服务上再添加任何注解。
 
@@ -170,4 +172,15 @@ public class SeataMyBatisService extends AbstractParentService {
 
     非回滚异常
 
-### 可能遇到的问题
+### Seata-Server 数据库
+
+* global_table
+
+    全局事务表，在启用全局事务时，会在此表新增全局事务数据；
+
+* branch_table
+
+    全局事务管理分支事务表，记录全局事务关联的分支事务；
+
+* lock_table
+    
