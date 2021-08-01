@@ -89,7 +89,8 @@ seata:
     ```markdown
     service.vgroupMapping.**my_test_tx_group**=*default*
 
-    service.*default*.grouplist
+    这就是具体的TC服务列表
+    service.*default*.grouplist=127.0.0.1:8091
     ```
 
 * 详细说明(慢慢看，不宜看懂)：
@@ -101,7 +102,7 @@ seata:
 
     ![Seata](https://cloudland.github.io/assets/images/202106/seata-7.png)
 
-    * 可以添加多个`service.vgroupMapping.my_test_tx_group`，替换`my_test_tx_group`定义成不同的名称。与`application.yaml`文件中配置的`tx-service-group`值一致，且`vgroup-mapping`添加`key`为此定义名称，值为定义的变量`service.default.grouplist`中间`default`，此值也可以替换，要与`service.vgroupMapping.my_test_tx_group`给的值匹配上即可。
+* 可以添加多个`service.vgroupMapping.my_test_tx_group`，替换`my_test_tx_group`定义成不同的名称。与`application.yaml`文件中配置的`tx-service-group`值一致，且`vgroup-mapping`添加`key`为此定义名称，值为定义的变量`service.default.grouplist`中间`default`，此值也可以替换，要与`service.vgroupMapping.my_test_tx_group`给的值匹配上即可。
 
 
 ### 编码使用
