@@ -78,7 +78,7 @@ spring:
                     # 谓词名称
                     - name: Path
                     # 谓词参数(参照 PathRoutePredicateFactory.Config 配置类理解)
-                    args:
+                      args:
                         patterns: /user/**, /order/**
                         matchOptionalTrailingSeparator: true
                   uri: lb://micro-service
@@ -117,7 +117,7 @@ spring:
                     # 过滤器名称
                     - name: StripPrefix
                     # 过滤器参数(参照 StripPrefixGatewayFilterFactory.Config 配置类理解)
-                    args:
+                      args:
                         parts: 1
                   uri: lb://micro-service
 ```
@@ -454,7 +454,7 @@ spring:
                     # 过滤器名称
                     - name: Custom
                     # 过滤器参数(参照 StripPrefixGatewayFilterFactory.Config 配置类理解)
-                    args:
+                      args:
                         field1: 字段值1
                   uri: lb://micro-service
 ```
