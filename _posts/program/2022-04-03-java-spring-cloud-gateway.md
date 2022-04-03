@@ -22,7 +22,7 @@ tags: Java Spring SpringCloud
 
 `谓词`是用于判断请求具体走哪个`路由`. `谓词`可通过**路径**、**方法**、**请求头**等多种方式匹配。在匹配具体的`路由`后, 采用`路由`内配置的`过滤`方法, 对请求`前`或`后`做增量操作.
 
-### 路由配置
+### 文件配置
 
 * application.yaml 
 
@@ -169,6 +169,43 @@ public class RouteDefinition {
     private int order = 0;
 
     ...
+}
+```
+
+### 编码配置
+
+```java
+/**
+ * 网关路由配置
+ *
+ * @author 未小雨
+ * @date 2021/12/20 16:08
+ */
+@Configuration(proxyBeanMethods = false)
+public class TokenAdapterRouteLocatorConfigure {
+
+    @Bean
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+                // 路由到 moblie-server 系统
+                .route("mobile-adapter", predicate -> predicate
+                        // 匹配路径(谓词)
+                        .path("/mobile/**").and()
+                        // 匹配请求头(谓词)
+                        .header("cloudland-token")
+                        // 过滤器
+                        .filters(filter -> filter
+                                // 删除第一节路径(过滤器)
+                                .stripPrefix(1)
+                                // 添加前缀路径(过滤器)
+                                .prefixPath("/business-supervise")
+                                // 自定过滤器
+                                .filter(new CustomGatewayFilterFactory().apply(c -> c.setField("字段1")))
+                        )
+                        .uri("lb://business-supervise"))
+                .build();
+    }
+
 }
 ```
 
@@ -640,5 +677,3 @@ List<GatewayFilter> loadGatewayFilters(String id, List<FilterDefinition> filterD
 	return ordered;
 }
 ```
-
-### 
