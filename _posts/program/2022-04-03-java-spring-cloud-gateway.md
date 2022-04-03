@@ -3,7 +3,7 @@ comment: false
 aside:
   toc: true
 
-title: Spring Cloud Gateway 
+title: Spring Cloud Gateway 使用手册
 date: 2022-04-03 13:13
 tags: Java Spring SpringCloud
 ---
@@ -101,12 +101,60 @@ public class RouteDefinition {
 
 Predicate 都是 RoutePredicateFactory 的实例, 主要负责请求的转发规则。
 
-![SpringCloudGatewayPredicate实现类](https://cloudland.github.io/assets/images/program/spring/cloud/gateway/02.png){:.rounded}
+* 默认提供的谓词实现类:
 
+```
+AbstractRoutePredicateFactory.java
+AfterRoutePredicateFactory.java
+BeforeRoutePredicateFactory.java
+BetweenRoutePredicateFactory.java
+CloudFoundryRouteServiceRoutePredicateFactory.java
+CookieRoutePredicateFactory.java
+HeaderRoutePredicateFactory.java
+HostRoutePredicateFactory.java
+MethodRoutePredicateFactory.java
+PathRoutePredicateFactory.java
+QueryRoutePredicateFactory.java
+ReadBodyPredicateFactory.java
+ReadBodyRoutePredicateFactory.java
+RemoteAddrRoutePredicateFactory.java
+WeightRoutePredicateFactory.java
+```
 
-### Filter 过滤器
+### Filter 过滤
 
 Filter 都是 GatewayFilter 的实例，Filter 负责在代理服务`之前`或`之后`做一些事情。
 
-![SpringCloudGatewayPredicate实现类](https://cloudland.github.io/assets/images/program/spring/cloud/gateway/03.png){:.rounded}
+* 默认提供的过滤实现类:
+
+```
+AddRequestHeaderGatewayFilterFactory
+AddRequestParameterGatewayFilterFactory
+AddResponseHeaderGatewayFilterFactory
+DedupeResponseHeaderGatewayFilterFactory
+HystrixGatewayFilterFactory
+MapRequestHeaderGatewayFilterFactory
+PrefixPathGatewayFilterFactory
+PreserveHostHeaderGatewayFilterFactory
+RedirectToGatewayFilterFactory
+RemoveRequestHeaderGatewayFilterFactory
+RemoveRequestParameterGatewayFilterFactory
+RemoveResponseHeaderGatewayFilterFactory
+RequestHeaderSizeGatewayFilterFactory
+RequestHeaderToRequestUriGatewayFilterFactory
+RequestSizeGatewayFilterFactory
+RetryGatewayFilterFactory
+RewriteLocationResponseHeaderGatewayFilterFactory
+RewritePathGatewayFilterFactory
+RewriteResponseHeaderGatewayFilterFactory
+SaveSessionGatewayFilterFactory
+SecureHeadersGatewayFilterFactory
+SetPathGatewayFilterFactory
+SetRequestHeaderGatewayFilterFactory
+SetRequestHostHeaderGatewayFilterFactory
+SetResponseHeaderGatewayFilterFactory
+SetStatusGatewayFilterFactory
+SpringCloudCircuitBreakerFilterFactory
+StripPrefixGatewayFilterFactory
+```
 
