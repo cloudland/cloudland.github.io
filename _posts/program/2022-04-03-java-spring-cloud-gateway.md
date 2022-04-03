@@ -363,7 +363,9 @@ SpringCloudCircuitBreakerFilterFactory
 StripPrefixGatewayFilterFactory
 ```
 
-#### 自定谓词类编写
+### 自定过滤器
+
+#### 自定过滤器类编写
 
 ```java
 /**
