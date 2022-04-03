@@ -138,7 +138,7 @@ spring:
                   uri: lb://micro-service
 ```
 
-### 配置对应Java类
+#### 配置对应Java类
 
 ```java
 package org.springframework.cloud.gateway.route;
