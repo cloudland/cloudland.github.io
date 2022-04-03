@@ -95,7 +95,8 @@ spring:
                 - id: routeName
                   # 谓词配置
                   predicates:
-                    # 谓词名称=参数, 参照 PathRoutePredicateFactory#shortcutFieldOrder 理解, '='号右边参数位置用','分割, 与shortcutFieldOrder函数返回参数名一一对应
+                    # 谓词名称=参数, 参照 PathRoutePredicateFactory#shortcutFieldOrder 理解
+                    # '='号右边参数位置用','分割, 与shortcutFieldOrder函数返回参数名一一对应
                     - Path=/user/**
                   uri: lb://micro-service
 ```
@@ -131,7 +132,8 @@ spring:
                 # 路由命名，必须唯一
                 - id: routeName
                   filters:
-                    # 路由名称=参数, 参照 StripPrefixGatewayFilterFactory#shortcutFieldOrder 理解, '='号右边参数位置用','分割, 与shortcutFieldOrder函数返回参数名一一对应
+                    # 路由名称=参数, 参照 StripPrefixGatewayFilterFactory#shortcutFieldOrder 理解
+                    # '='号右边参数位置用','分割, 与shortcutFieldOrder函数返回参数名一一对应
                     - StripPrefix=1
                   uri: lb://micro-service
 ```
@@ -457,7 +459,7 @@ spring:
                   uri: lb://micro-service
 ```
 
-## 自动装载
+## SpringGateway自动装载
 
 ### GatewayAutoConfiguration
 
@@ -614,32 +616,3 @@ public class RouteDefinitionRouteLocator
 ```
 
 ### 
-
-
-
-
-# 配置路由
-      routes:
-        # 请求 http:/host:port/user/information
-        # 对应谓词 /user 匹配成功, 获取转发地址: lb://micro-service
-        # 转发请求 http://micro-service/user/information
-        # 过滤器将转发的地址第一节/user删除，最终请求 http://micro-service/information
-        # 路由命名，必须唯一
-        - id: name
-          # 配置谓词集合
-          predicates:
-            # 可以使用两种格式
-            - name: Path # 谓词名称
-              args: /user/** # 参数
-            - Path=/user/** # 谓词名称=参数
-            # 谓词名称是GatewayPredicate接口实现类的命名前缀, xxxRoutePredicateFactory
-          # 配置过滤器集合
-          #过滤器名称是GatewayFilter接口实现类的命名前缀, xxxGatewayFilterFactory
-          filters:
-            - name: StripPrefix # 过滤名称
-              args: 1 # 参数
-            - StripPrefix=1
-          # lb: LoadBalance 转发的微服务名称
-          uri: lb://micro-service
-          metadata:
-          order:
