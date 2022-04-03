@@ -491,13 +491,9 @@ spring:
 	}
     ```
 
-* FilteringWebHandler
+* RouteLocator `重要`
 
-* RoutePredicateHandlerMapping
-
-* RouteLocator
-
-    关键
+    初始整个路由配置信息类
 
     ```java
     @Bean
@@ -511,109 +507,137 @@ spring:
 	}
     ```
 
-### RouteDefinitionRouteLocator
+### RouteDefinitionRouteLocator `重要`
 
-此类主要是组装了`RouteDefinitionLocator`、`RoutePredicateFactory`、`GatewayFilterFactory`, 从而通过这些信息转换成`Route`
+此类主要是组装了`RouteDefinitionLocator`、`RoutePredicateFactory`、`GatewayFilterFactory`, 从而通过这些信息转换成`Route`.
+
+
+* 基于配置初始谓词
 
 ```java
-package org.springframework.cloud.gateway.route;
-
-// 忽略导入
-...
-
-public class RouteDefinitionRouteLocator
-		implements RouteLocator, BeanFactoryAware, ApplicationEventPublisherAware {
-
-    // 忽略代码
-    ...
-
-    // 构造函数
-    public RouteDefinitionRouteLocator(RouteDefinitionLocator routeDefinitionLocator,
-			List<RoutePredicateFactory> predicates,
-			List<GatewayFilterFactory> gatewayFilterFactories,
-			GatewayProperties gatewayProperties,
-			ConfigurationService configurationService) {
-		this.routeDefinitionLocator = routeDefinitionLocator;
-		this.configurationService = configurationService;
-		// 初始 Predicate 断言信息
-        initFactories(predicates);
-		gatewayFilterFactories.forEach(
-				factory -> this.gatewayFilterFactories.put(factory.name(), factory));
-		this.gatewayProperties = gatewayProperties;
-	}
-
-    // 初始 Predicate 信息函数
-    private void initFactories(List<RoutePredicateFactory> predicates) {
-		predicates.forEach(factory -> {
-            // key = RoutePredicateFactory 实现类的名称前缀，如: PathRoutePredicateFactory 取前缀 key = Path
-			String key = factory.name();
-			if (this.predicates.containsKey(key)) {
-				this.logger.warn("A RoutePredicateFactory named " + key
-						+ " already exists, class: " + this.predicates.get(key)
-						+ ". It will be overwritten.");
-			}
-            // 已存在该断言 Factory, 覆盖原有值。 以SCG内置的提供为主。尽量避免重名。
-			this.predicates.put(key, factory);
-			if (logger.isInfoEnabled()) {
-				logger.info("Loaded RoutePredicateFactory [" + key + "]");
-			}
-		});
-	}
-
-    // 获取配置路由
-    @Override
-	public Flux<Route> getRoutes() {
-		Flux<Route> routes = this.routeDefinitionLocator.getRouteDefinitions()
-				.map(this::convertToRoute);
-
-		if (!gatewayProperties.isFailOnRouteDefinitionError()) {
-			// instead of letting error bubble up, continue
-			routes = routes.onErrorContinue((error, obj) -> {
-				if (logger.isWarnEnabled()) {
-					logger.warn("RouteDefinition id " + ((RouteDefinition) obj).getId()
-							+ " will be ignored. Definition has invalid configs, "
-							+ error.getMessage());
-				}
-			});
+// 初始 Predicate 函数
+private void initFactories(List<RoutePredicateFactory> predicates) {
+	predicates.forEach(factory -> {
+        // key = RoutePredicateFactory 实现类的名称前缀，如: PathRoutePredicateFactory 取前缀 key = Path
+		String key = factory.name();
+		if (this.predicates.containsKey(key)) {
+			this.logger.warn("A RoutePredicateFactory named " + key
+					+ " already exists, class: " + this.predicates.get(key)
+					+ ". It will be overwritten.");
 		}
+        // 已存在该断言 Factory, 覆盖原有值。 以SCG内置的提供为主。尽量避免重名。
+		this.predicates.put(key, factory);
+		if (logger.isInfoEnabled()) {
+			logger.info("Loaded RoutePredicateFactory [" + key + "]");
+		}
+	});
+}
 
-		return routes.map(route -> {
-			if (logger.isDebugEnabled()) {
-				logger.debug("RouteDefinition matched: " + route.getId());
-			}
-			return route;
-		});
+// 谓词执行
+private AsyncPredicate<ServerWebExchange> lookup(RouteDefinition route, PredicateDefinition predicate) {
+    // 查找 RoutePredicateFactory
+    RoutePredicateFactory<Object> factory = this.predicates.get(predicate.getName());
+	if (factory == null) {
+		throw new IllegalArgumentException(
+				"Unable to find RoutePredicateFactory with name "
+						+ predicate.getName());
+	}
+	if (logger.isDebugEnabled()) {
+		logger.debug("RouteDefinition " + route.getId() + " applying "
+				+ predicate.getArgs() + " to " + predicate.getName());
+	}
+        
+    /**
+     * 重点: 
+     * 此处将 PredicateDefinition 配置的数据, 转换成 Config 对象, 再调用 RoutePredicateFactory 接口的 applyAsync 函数.
+     * 函数内部会调用 RoutePredicateFactory 具体实现的类的 apply 函数, 这样实现类就会传入 config 配置信息
+     */        
+	// @formatter:off
+	Object config = this.configurationService.with(factory)
+			.name(predicate.getName())
+			.properties(predicate.getArgs())
+			.eventFunction((bound, properties) -> new PredicateArgsEvent(
+					RouteDefinitionRouteLocator.this, route.getId(), properties))
+			.bind();
+	// @formatter:on
+
+    // 调用谓词
+	return factory.applyAsync(config);
+}
+```
+
+* 基于配置初始过滤
+
+```java
+// 初始 Filter 函数
+private List<GatewayFilter> getFilters(RouteDefinition routeDefinition) {
+	List<GatewayFilter> filters = new ArrayList<>();
+
+    // 添加内置过滤器
+	if (!this.gatewayProperties.getDefaultFilters().isEmpty()) {
+		filters.addAll(loadGatewayFilters(DEFAULT_FILTERS,
+				new ArrayList<>(this.gatewayProperties.getDefaultFilters())));
 	}
 
-    // 
-    private AsyncPredicate<ServerWebExchange> lookup(RouteDefinition route,
-			PredicateDefinition predicate) {
-        // 查找 RoutePredicateFactory
-		RoutePredicateFactory<Object> factory = this.predicates.get(predicate.getName());
+    // 添加配置过滤器
+	if (!routeDefinition.getFilters().isEmpty()) {
+		filters.addAll(loadGatewayFilters(routeDefinition.getId(),
+				new ArrayList<>(routeDefinition.getFilters())));
+	}
+
+    // 排序
+	AnnotationAwareOrderComparator.sort(filters);
+	return filters;
+}
+
+// 过滤器执行
+@SuppressWarnings("unchecked")
+List<GatewayFilter> loadGatewayFilters(String id, List<FilterDefinition> filterDefinitions) {
+	ArrayList<GatewayFilter> ordered = new ArrayList<>(filterDefinitions.size());
+	for (int i = 0; i < filterDefinitions.size(); i++) {
+		FilterDefinition definition = filterDefinitions.get(i);
+		GatewayFilterFactory factory = this.gatewayFilterFactories.get(definition.getName());
 		if (factory == null) {
 			throw new IllegalArgumentException(
-					"Unable to find RoutePredicateFactory with name "
-							+ predicate.getName());
+					"Unable to find GatewayFilterFactory with name "
+								+ definition.getName());
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("RouteDefinition " + route.getId() + " applying "
-					+ predicate.getArgs() + " to " + predicate.getName());
+			logger.debug("RouteDefinition " + id + " applying filter "
+					+ definition.getArgs() + " to " + definition.getName());
 		}
 
-        // 重点: 此处将 PredicateDefinition 配置的数据, 转换成 Config 对象, 再调用 RoutePredicateFactory 接口的 applyAsync 函数, 函数内部会调用 RoutePredicateFactory 具体实现的类的 apply 函数, 这样实现类就会传入 config 配置信息
+        /**
+        * 重要:
+        * 获取配置文件配置参数
+        */
 		// @formatter:off
-		Object config = this.configurationService.with(factory)
-				.name(predicate.getName())
-				.properties(predicate.getArgs())
-				.eventFunction((bound, properties) -> new PredicateArgsEvent(
-						RouteDefinitionRouteLocator.this, route.getId(), properties))
+		Object configuration = this.configurationService.with(factory)
+				.name(definition.getName())
+				.properties(definition.getArgs())
+				.eventFunction((bound, properties) -> new FilterArgsEvent(
+						// TODO: why explicit cast needed or java compile fails
+						RouteDefinitionRouteLocator.this, id, (Map<String, Object>) properties))
 				.bind();
 		// @formatter:on
-
-        // 生成异步断言
-		return factory.applyAsync(config);
+		// some filters require routeId
+		// TODO: is there a better place to apply this?
+		if (configuration instanceof HasRouteId) {
+			HasRouteId hasRouteId = (HasRouteId) configuration;
+			hasRouteId.setRouteId(id);
+		}
+		
+        // 调用过滤器
+        GatewayFilter gatewayFilter = factory.apply(configuration);
+		if (gatewayFilter instanceof Ordered) {
+			ordered.add(gatewayFilter);
+		}
+		else {
+			ordered.add(new OrderedGatewayFilter(gatewayFilter, i + 1));
+		}
 	}
 
+	return ordered;
 }
 ```
 
